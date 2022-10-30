@@ -94,9 +94,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub btExcluir_Click()
-If lstContato.ListItems.Count > 0 Then
-    If MsgBox("Deseja realmente excluir a Pessoa'" & lstPessoas.SelectedItem.ListSubItems(1).Text & "'?", vbYesNo, "Excluir") = vbYes Then
-        Call Module1.ExcluirPessoa(lstPessoas.SelectedItem.Text)
+If lstPessoas.ListItems.Count > 0 Then
+    If MsgBox("Deseja realmente excluir a Pessoa '" & lstPessoas.SelectedItem.ListSubItems(1).text & "'?", vbYesNo, "Excluir") = vbYes Then
+        Call Module1.ExcluirPessoa(lstPessoas.SelectedItem.text)
         Call ListarPessoa
     End If
 End If
@@ -105,13 +105,15 @@ End Sub
 Private Sub btNovo_Click()
 CadastroPessoas.Show
 CadastroPessoas.LimparCampos
+Me.Hide
 End Sub
 
 Private Sub Command1_Click()
 If lstPessoas.ListItems.Count > 0 Then
-    Call PesquisarContato(lstPessoas.SelectedItem.Text)
+    Call PesquisarContato(lstPessoas.SelectedItem.text)
 End If
 CadastroPessoas.Show
+Me.Hide
 End Sub
 
 

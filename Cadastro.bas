@@ -34,7 +34,7 @@ con.Execute "INSERT INTO Pessoas(Nome, CPF, Endereco, Email, Telefone) " & _
 Call Desconectar
 End Sub
 
-Public Sub AtualizarPessoa(Codigo As String, Nome As String, Endereco As String, Telefone As String, Email As String)
+Public Sub AtualizarPessoa(Codigo As String, Nome As String, CPF As String, Endereco As String, Telefone As String, Email As String)
 Call Conectar
 con.Execute "UPDATE Pessoas " & _
             "SET Nome='" & Nome & "', " & _

@@ -85,7 +85,7 @@ Begin VB.Form CadastroPessoas
       Caption         =   "Nome"
       Height          =   735
       Left            =   1320
-      TabIndex        =   7
+      TabIndex        =   8
       Top             =   120
       Width           =   3735
    End
@@ -93,7 +93,7 @@ Begin VB.Form CadastroPessoas
       Caption         =   "E-mail"
       Height          =   735
       Left            =   120
-      TabIndex        =   8
+      TabIndex        =   7
       Top             =   1800
       Width           =   3855
    End
@@ -132,12 +132,17 @@ Begin VB.Form CadastroPessoas
       TabIndex        =   11
       Top             =   1800
       Width           =   3495
-      Begin VB.TextBox tfTelefone 
+      Begin MSMask.MaskEdBox tfTelefone 
          Height          =   375
          Left            =   120
          TabIndex        =   4
          Top             =   240
          Width           =   3255
+         _ExtentX        =   5741
+         _ExtentY        =   661
+         _Version        =   393216
+         PromptInclude   =   0   'False
+         PromptChar      =   "_"
       End
    End
 End
@@ -147,10 +152,15 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub btGravar_Click()
-If txtCodigo = "" Then
+If tfCodigo = "" Then
     Call Module1.InserirPessoa(tfNome, tfCpf, tfEndereco, tfEmail, tfTelefone)
+    MsgBox ("Pessoa gravada com sucesso!")
+    Me.Hide
     Else
     Call Module1.AtualizarPessoa(tfCodigo, tfNome, tfCpf, tfEndereco, tfEmail, tfTelefone)
+    MsgBox ("Pessoa atualizada com sucesso!")
+    Me.Hide
+End If
 End Sub
 
 Private Sub btVoltar_Click()
@@ -167,34 +177,30 @@ tfEmail = ""
 tfTelefone = ""
 End Sub
 
-Private Sub tfCpf_GotFocus()
-tfCpf.Mask = "##############"
-End Sub
-
 Private Sub tfCpf_KeyPress(KeyAscii As Integer)
   'se teclar enter envia um TAB
   If KeyAscii = 13 Then
-     SendKeys "{TAB}"
+     Sendkeys "{TAB}"
      KeyAscii = 0
   End If
 End Sub
 
 Private Sub tfCpf_LostFocus()
-If Len(tfCpf.Text) > 0 Then
+If Len(tfCpf.text) > 0 Then
 tfCpf.Mask = "###.###.###-##"
-    If Not calculacpf(tfCpf.Text) Then
-            MsgBox "CPF com DV incorreto !!!"
-            tfCpf = ""
-            tfCpf.Mask = "##########"
-            tfCpf.SetFocus
-        End If
+    'If Not calculacpf(tfCpf.Text) Then
+            'MsgBox "CPF com DV incorreto !!!"
+            'tfCpf = ""
+            'tfCpf.Mask = "##########"
+            'tfCpf.SetFocus
+        'End If
 End If
 End Sub
 
 Private Sub tfEmail_KeyPress(KeyAscii As Integer)
   'se teclar enter envia um TAB
   If KeyAscii = 13 Then
-     SendKeys "{TAB}"
+     Sendkeys "{TAB}"
      KeyAscii = 0
   End If
 End Sub
@@ -202,7 +208,7 @@ End Sub
 Private Sub tfEndereco_KeyPress(KeyAscii As Integer)
   'se teclar enter envia um TAB
   If KeyAscii = 13 Then
-     SendKeys "{TAB}"
+     Sendkeys "{TAB}"
      KeyAscii = 0
   End If
 End Sub
@@ -211,7 +217,7 @@ End Sub
 Private Sub tfNome_KeyPress(KeyAscii As Integer)
   'se teclar enter envia um TAB
   If KeyAscii = 13 Then
-     SendKeys "{TAB}"
+     Sendkeys "{TAB}"
      KeyAscii = 0
   End If
 End Sub
@@ -219,10 +225,22 @@ End Sub
 Private Sub tfTelefone_KeyPress(KeyAscii As Integer)
   'se teclar enter envia um TAB
   If KeyAscii = 13 Then
-     SendKeys "{TAB}"
+     Sendkeys "{TAB}"
      KeyAscii = 0
   End If
 End Sub
+Private Sub tfTelefone_LostFocus()
+If Len(tfTelefone.text) > 0 Then
+    tfTelefone.Mask = "(##)#####-####"
+End If
+End Sub
+Public Sub Sendkeys(text As Variant, Optional wait As Boolean = False)
+   Dim WshShell As Object
+   Set WshShell = CreateObject("wscript.shell")
+   WshShell.Sendkeys CStr(text), wait
+   Set WshShell = Nothing
+End Sub
+
 Function calculacpf(CPF As String) As Boolean
 'Esta rotina foi adaptada da revista Fórum Access
 On Error GoTo Err_CPF
@@ -295,3 +313,4 @@ Err_CPF:
     MsgBox Error$
     Resume Exit_CPF
 End Function
+
