@@ -45,7 +45,7 @@ con.Execute "UPDATE Pessoas " & _
 Call Desconectar
 End Sub
 
-Public Sub ExcluirContato(Codigo As String)
+Public Sub ExcluirPessoa(Codigo As String)
 Call Conectar
 con.Execute "DELETE FROM Pessoas WHERE Codigo=" & Codigo
 Call Desconectar
